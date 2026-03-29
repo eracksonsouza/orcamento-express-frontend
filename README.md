@@ -1,73 +1,113 @@
-# React + TypeScript + Vite
+# Orçamento Express Front
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação frontend para gestão de oficina, com foco em produtividade operacional: cadastro de clientes e veículos, acompanhamento de orçamentos e fluxo guiado para criação de propostas.
 
-Currently, two official plugins are available:
+Projeto desenvolvido com arquitetura de componentes reutilizáveis, tipagem forte e base pronta para integração com API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Valor de Produto
 
-## React Compiler
+Este sistema foi desenhado para reduzir fricção no dia a dia da oficina:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- centraliza dados de clientes, veículos e orçamentos em um único fluxo
+- acelera a criação de orçamento com wizard por etapas
+- melhora visibilidade operacional com dashboard de indicadores e status
+- facilita evolução para ambiente real com API, sem retrabalho estrutural no frontend
 
-## Expanding the ESLint configuration
+## Destaques Técnicos (para recrutadores)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19 + TypeScript com foco em segurança de tipos e manutenção
+- Estrutura por domínio (`pages/*`) e componentes coesos/reaproveitáveis
+- Padronização de tipos compartilhados em `types.ts` para reduzir duplicação
+- Rotas organizadas com React Router (`/dashboard`, `/clientes`, `/veiculos`, `/orcamentos`, `/criarOrcamento`)
+- UI moderna com Tailwind CSS 4 e tokens de tema/acessibilidade via CSS variables
+- Qualidade de código com ESLint + Prettier
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- React 19
+- TypeScript
+- Vite 8
+- React Router DOM 7
+- Tailwind CSS 4
+- React Hook Form + Zod
+- TanStack Query (base para camada de dados assíncrona)
+- ESLint + Prettier
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Arquitetura Resumida
+
+```text
+src/
+  components/
+    Dashboard/
+    shared/
+  pages/
+    Dashboard/
+    Clients/
+    Vehicles/
+    Quotes/
+    CreateQuote/
+  types/              # contratos de tipo compartilhados
+  lib/                # utilitários
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Experiência Implementada
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Dashboard com métricas e distribuição de serviços
+- Gestão de clientes e veículos em fluxo integrado
+- Página de orçamentos com informações detalhadas
+- Wizard de criação de orçamento com preview em tempo real
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Setup Local
+
+### Requisitos
+
+- Node.js 20+
+- npm 10+
+
+### Instalação
+
+```bash
+npm install
 ```
+
+### Variáveis de ambiente
+
+Crie o arquivo `.env` na raiz:
+
+```env
+VITE_API_URL=http://localhost:3333
+```
+
+### Executar em desenvolvimento
+
+```bash
+npm run dev
+```
+
+Acesse: `http://localhost:5173`
+
+## Scripts
+
+```bash
+npm run dev      # desenvolvimento
+npm run build    # build de produção (tsc -b + vite build)
+npm run preview  # preview local do build
+npm run lint     # análise estática
+```
+
+## Rotas
+
+- `/dashboard`
+- `/clientes`
+- `/veiculos`
+- `/orcamentos`
+- `/criarOrcamento`
+
+`/` redireciona para `/dashboard`.
+
+## Próximos Passos de Evolução
+
+- conectar todas as páginas a endpoints reais
+- adicionar testes automatizados (unitários e integração)
+- instrumentar telemetria de uso para medir tempo de criação de orçamento
+- evoluir controle de permissões por perfil de usuário
