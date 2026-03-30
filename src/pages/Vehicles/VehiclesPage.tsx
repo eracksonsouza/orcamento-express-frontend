@@ -1,6 +1,6 @@
-import { Search } from 'lucide-react'
-import { ActionCards, VehiclesForm, VehiclesTable } from './components'
-import { quickActions, vehicleTypes, vehicles } from './vehicle-mock'
+import { Search } from "lucide-react"
+import { ActionCards, VehiclesForm, VehiclesTable } from "./components"
+import { quickActions, vehicleTypes, vehicles } from "./vehicle-mock"
 
 export default function VehiclesPage() {
   return (
