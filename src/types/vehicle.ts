@@ -10,9 +10,11 @@ export type VehicleTypeOption = {
 
 export type VehicleRecord = {
   id: string
+  brand: string
   model: string
-  plate: string
-  year: string
-  status: string
-  statusTone: StatusTone
+  year: number
+  licensePlate: string
+  type: string
+  createdAt: string
+  updatedAt: string
 }
