@@ -1,10 +1,11 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Sidebar from './components/shared/Sidebar/SideBar'
 import DashboardPage from './pages/Dashboard'
-import ClientsPage from './pages/Clients'
+import CustomersPage from './pages/Customers'
 import VehiclesPage from './pages/Vehicles'
 import QuotesPage from './pages/Quotes'
 import CreateQuotePage from './pages/CreateQuote'
+import SettingsPage from './pages/Settings'
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/clientes" element={<ClientsPage />} />
+          <Route path="/clientes" element={<CustomersPage />} />
           <Route path="/veiculos" element={<VehiclesPage />} />
           <Route path="/orcamentos" element={<QuotesPage />} />
           <Route path="/criarOrcamento" element={<CreateQuotePage />} />
+          <Route path="/configuracoes" element={<SettingsPage />} />
           <Route path="*" element={<DashboardPage />} />
         </Routes>
       </main>
