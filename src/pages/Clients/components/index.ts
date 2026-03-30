@@ -1,8 +1,0 @@
-export { default as ClientsList } from './ClientsList'
-export { default as ClientHeader } from './ClientHeader'
-export { default as ClientInfoForm } from './ClientInfoForm'
-export { default as VehiclesForm } from './VehiclesForm'
-export { default as VehiclesTable } from './VehiclesTable'
-export { default as ProductivityTip } from './ProductivityTip'
-export { default as RecentQuotes } from './RecentQuotes'
-export * from './types'
