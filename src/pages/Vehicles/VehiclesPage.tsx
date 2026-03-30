@@ -1,6 +1,6 @@
-import { Search } from "lucide-react"
-import { ActionCards, VehiclesForm, VehiclesTable } from "./components"
-import { quickActions, vehicleTypes, vehicles } from "./vehicle-mock"
+import { Search } from 'lucide-react'
+import { ActionCards, VehiclesForm, VehiclesTable } from './components'
+import { quickActions, vehicleTypes, vehicles } from './vehicle-mock'
 
 export default function VehiclesPage() {
   return (
@@ -11,9 +11,7 @@ export default function VehiclesPage() {
             Quarta-feira, 25 de março
           </span>
           <h1 className="text-2xl font-semibold text-slate-900">Veículos</h1>
-          <p className="text-sm text-slate-500">
-            Gestão completa da frota de clientes.
-          </p>
+          <p className="text-sm text-slate-500">Gestão completa da frota de clientes.</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-400">
