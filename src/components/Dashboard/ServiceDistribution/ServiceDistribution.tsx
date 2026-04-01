@@ -11,23 +11,42 @@ export default function ServiceDistribution({ services }: ServiceDistributionPro
   }, [])
 
   return (
-    <section className="flex flex-col gap-5 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
+    <section
+      className="flex flex-col gap-5 rounded-lg p-5"
+      style={{ border: '1px solid var(--border)', background: 'var(--bg)' }}
+    >
       <header className="flex items-start justify-between">
         <div>
-          <h2 className="text-base font-bold text-slate-800">Distribuição de Serviços</h2>
-          <p className="mt-0.5 text-xs text-slate-400">Orçamentos do mês atual</p>
+          <h2 className="text-sm font-semibold" style={{ color: 'var(--text-h)' }}>
+            Distribuição de Serviços
+          </h2>
+          <p className="mt-0.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+            Orçamentos do mês atual
+          </p>
         </div>
-        <span className="rounded-lg border border-slate-100 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-500">
+        <span
+          className="rounded px-2 py-0.5 text-xs font-medium tabular-nums"
+          style={{
+            fontFamily: 'var(--font-data)',
+            border: '1px solid var(--border)',
+            color: 'var(--text-muted)',
+          }}
+        >
           Out 2023
         </span>
       </header>
-      <div className="flex h-3 overflow-hidden rounded-full bg-slate-100">
+
+      <div
+        className="flex h-2 overflow-hidden rounded-sm"
+        style={{ background: 'var(--border)' }}
+      >
         {services.map((service) => (
           <div
             key={service.id}
-            className={`h-full ${service.colorClass} transition-all duration-700 ease-out`}
+            className="h-full"
             style={{
               width: segAnimated ? `${service.percentage}%` : '0%',
+              background: service.colorClass,
               transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />

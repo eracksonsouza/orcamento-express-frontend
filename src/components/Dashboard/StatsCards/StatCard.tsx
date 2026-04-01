@@ -1,5 +1,5 @@
 import { FileText, WalletMinimal, Clock } from 'lucide-react'
-import type { StatCardColorConfig, StatCardData, StatCardProps } from '../types'
+import type { StatCardData, StatCardProps } from '../types'
 
 const iconMap = {
   file: FileText,
@@ -7,77 +7,64 @@ const iconMap = {
   clock: Clock,
 }
 
-const statCardPaletteByIcon: Record<StatCardData['icon'], StatCardColorConfig> = {
-  file: {
-    iconBg: 'bg-blue-50',
-    iconText: 'text-blue-600',
-    borderLeft: 'border-l-blue-500',
-    deltaBg: {
-      positive: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-      negative: 'bg-rose-50 text-rose-700 border border-rose-200',
-      neutral: 'bg-slate-100 text-slate-500',
-    },
-  },
-  wallet: {
-    iconBg: 'bg-emerald-50',
-    iconText: 'text-emerald-600',
-    borderLeft: 'border-l-emerald-500',
-    deltaBg: {
-      positive: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-      negative: 'bg-rose-50 text-rose-700 border border-rose-200',
-      neutral: 'bg-slate-100 text-slate-500',
-    },
-  },
-  clock: {
-    iconBg: 'bg-amber-50',
-    iconText: 'text-amber-600',
-    borderLeft: 'border-l-amber-500',
-    deltaBg: {
-      positive: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-      negative: 'bg-rose-50 text-rose-700 border border-rose-200',
-      neutral: 'bg-slate-100 text-slate-500',
-    },
-  },
-}
-
-const statCardGlowClassByIcon: Record<StatCardData['icon'], string> = {
-  file: 'stat-card-glow-file',
-  wallet: 'stat-card-glow-wallet',
-  clock: 'stat-card-glow-clock',
+const accentColorByIcon: Record<StatCardData['icon'], string> = {
+  file: 'var(--accent)',
+  wallet: 'var(--status-ready)',
+  clock: 'var(--brand)',
 }
 
 export default function StatCard({ data }: StatCardProps) {
   const Icon = iconMap[data.icon]
-  const colors = statCardPaletteByIcon[data.icon]
-  const deltaClass = data.deltaType ? colors.deltaBg[data.deltaType] : ''
-  const glowClass = statCardGlowClassByIcon[data.icon]
+  const accentColor = accentColorByIcon[data.icon]
+
+  const deltaColor =
+    data.deltaType === 'positive'
+      ? 'var(--status-ready)'
+      : data.deltaType === 'negative'
+        ? 'var(--status-failed)'
+        : 'var(--text-muted)'
 
   return (
     <article
-      className={`group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-slate-200 border-l-4 ${colors.borderLeft}`}
+      className="group relative flex flex-col gap-3 rounded-lg p-5 transition-shadow duration-200 hover:shadow-md"
+      style={{
+        border: '1px solid var(--border)',
+        background: 'var(--bg)',
+        borderTop: `2.5px solid ${accentColor}`,
+      }}
     >
-      <div
-        className={`pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${glowClass}`}
-      />
-
-      <div className="relative flex items-start justify-between">
-        <div
-          className={`grid h-11 w-11 place-items-center rounded-xl ${colors.iconBg} ${colors.iconText} transition-transform duration-300 group-hover:scale-110`}
-        >
-          <Icon className="h-5 w-5" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Icon className="h-4 w-4" style={{ color: accentColor }} />
+          <span
+            className="text-xs font-semibold uppercase tracking-widest"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            {data.title}
+          </span>
         </div>
         {data.delta && (
-          <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${deltaClass}`}>
+          <span
+            className="text-xs font-medium tabular-nums"
+            style={{ fontFamily: 'var(--font-data)', color: deltaColor }}
+          >
             {data.delta}
           </span>
         )}
       </div>
 
-      <div className="relative">
-        <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{data.title}</p>
-        <p className="mt-1 text-2xl font-extrabold tabular-nums text-slate-900">{data.value}</p>
-        {data.subtitle && <p className="mt-0.5 text-xs text-slate-400">{data.subtitle}</p>}
-      </div>
+      <p
+        className="text-3xl font-medium tabular-nums leading-none"
+        style={{ fontFamily: 'var(--font-data)', color: 'var(--text-h)' }}
+      >
+        {data.value}
+      </p>
+
+      {data.subtitle && (
+        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          {data.subtitle}
+        </p>
+      )}
     </article>
   )
 }

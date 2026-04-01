@@ -40,26 +40,42 @@ export default function DashboardHeader({
 
   return (
     <header className="flex flex-wrap items-center justify-between gap-4 animate-fade-in-up">
-      <div className="space-y-1">
-        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 capitalize">
+      <div className="space-y-0.5">
+        <p
+          className="text-xs font-semibold uppercase tracking-widest capitalize"
+          style={{ color: 'var(--text-muted)' }}
+        >
           {currentDate}
         </p>
-        <h1 className="text-2xl font-extrabold text-slate-900">
+        <h1
+          className="text-2xl font-bold"
+          style={{ color: 'var(--text-h)' }}
+        >
           {getGreeting()},{' '}
-          <span className="text-brand-gradient">{firstName}</span>
+          <span style={{ color: 'var(--brand)' }}>{firstName}</span>
         </h1>
-        <p className="text-sm text-slate-500">{subtitle}</p>
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+          {subtitle}
+        </p>
       </div>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2">
         <button
           type="button"
-          className="relative grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 hover:shadow-md"
+          className="relative grid h-9 w-9 place-items-center rounded-lg transition-colors duration-150"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'var(--bg)',
+            color: 'var(--text-muted)',
+          }}
           aria-label="Notificações"
         >
-          <Bell className="h-[18px] w-[18px]" />
+          <Bell className="h-4 w-4" />
           {notificationCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-red-500 text-[9px] font-bold text-white leading-none">
+            <span
+              className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold text-white leading-none"
+              style={{ background: 'var(--accent)' }}
+            >
               {notificationCount}
             </span>
           )}
@@ -67,13 +83,22 @@ export default function DashboardHeader({
 
         <button
           type="button"
-          className="group flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+          className="group flex items-center gap-2 rounded-lg px-3 py-1.5 transition-colors duration-150"
+          style={{ border: '1px solid var(--border)', background: 'var(--bg)' }}
         >
-          <div className="bg-brand-gradient grid h-7 w-7 flex-shrink-0 place-items-center rounded-lg text-xs font-bold text-white">
+          <div
+            className="grid h-6 w-6 flex-shrink-0 place-items-center rounded text-[11px] font-bold text-white"
+            style={{ background: 'var(--brand)' }}
+          >
             {initials}
           </div>
-          <span className="text-sm font-semibold text-slate-700">{userName}</span>
-          <ChevronDown className="h-3.5 w-3.5 text-slate-400 transition-transform duration-200 group-hover:rotate-180" />
+          <span className="text-sm font-medium" style={{ color: 'var(--text)' }}>
+            {userName}
+          </span>
+          <ChevronDown
+            className="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180"
+            style={{ color: 'var(--text-muted)' }}
+          />
         </button>
       </div>
     </header>
