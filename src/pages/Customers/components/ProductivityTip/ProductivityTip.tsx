@@ -6,13 +6,11 @@ export default function ProductivityTip({
   description = 'O sistema identifica automaticamente o tipo de placa (Mercosul ou Tradicional) enquanto você digita. Veículos cadastrados serão vinculados automaticamente às ordens de serviço futuras.',
 }: ProductivityTipProps) {
   return (
-    <section className="flex gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 p-4 text-indigo-700">
-      <div className="grid h-9 w-9 place-items-center rounded-full bg-indigo-100">
-        <Info className="h-4 w-4" />
-      </div>
+    <section className="flex gap-3 rounded-xl border border-(--accent-border) bg-(--accent-bg) p-4">
+      <Info className="mt-0.5 h-4 w-4 shrink-0 text-(--accent)" />
       <div>
-        <h3 className="text-sm font-semibold">{title}</h3>
-        <p className="text-xs text-indigo-600">{description}</p>
+        <h3 className="text-sm font-semibold text-(--accent)">{title}</h3>
+        <p className="mt-0.5 text-xs leading-relaxed text-slate-500">{description}</p>
       </div>
     </section>
   )

@@ -30,10 +30,17 @@ export type CustomerRecentQuotesProps = {
 
 export type CustomerVehiclesFormProps = {
   vehicleTypes: VehicleTypeOption[]
+  customerId: string
+  onVehicleCreated?: (vehicle: VehicleItem) => void
+  vehicleToEdit?: VehicleItem | null
+  onVehicleUpdated?: (vehicle: VehicleItem) => void
+  onCancelEdit?: () => void
 }
 
 export type CustomerVehiclesTableProps = {
   vehicles: VehicleItem[]
+  onDelete?: (vehicleId: string) => void
+  onEdit?: (vehicle: VehicleItem) => void
 }
 
 export type StatusToneClassMap = Record<StatusTone, string>

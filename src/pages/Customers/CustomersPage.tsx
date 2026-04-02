@@ -14,11 +14,11 @@ import type { CustomerSummary, VehicleItem, VehicleTypeOption } from './types'
 import { api } from '@/lib/api'
 
 const vehicleTypes: VehicleTypeOption[] = [
-  { id: 'car', label: 'Carro', icon: 'car' },
-  { id: 'moto', label: 'Moto', icon: 'bike' },
-  { id: 'truck', label: 'Caminhão', icon: 'truck' },
-  { id: 'van', label: 'Van', icon: 'van' },
-  { id: 'suv', label: 'SUV', icon: 'suv' },
+  { id: 'CAR', label: 'Carro', icon: 'car' },
+  { id: 'MOTORCYCLE', label: 'Moto', icon: 'bike' },
+  { id: 'TRUCK', label: 'Caminhão', icon: 'truck' },
+  { id: 'VAN', label: 'Van', icon: 'van' },
+  { id: 'SUV', label: 'SUV', icon: 'suv' },
 ]
 
 function formatCreatedAt(isoDate: string): string {
@@ -28,26 +28,36 @@ function formatCreatedAt(isoDate: string): string {
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<CustomerSummary[]>([])
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null)
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerSummary | null>(null)
   const [vehicles, setVehicles] = useState<VehicleItem[]>([])
+  const [vehicleToEdit, setVehicleToEdit] = useState<VehicleItem | null>(null)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
   useEffect(() => {
     api.get<{ customers: CustomerSummary[] }>('/customers').then(({ customers }) => {
       setCustomers(customers)
       if (customers.length > 0) {
-        setSelectedCustomer(customers[0])
+        setSelectedCustomerId(customers[0].id)
       }
     })
   }, [])
 
   useEffect(() => {
-    if (!selectedCustomer) return
+    if (!selectedCustomerId) return
 
     api
-      .get<{ vehicles: VehicleItem[] }>(`/customers/${selectedCustomer.id}/vehicles`)
+      .get<{ customer: CustomerSummary }>(`/customers/${selectedCustomerId}`)
+      .then(({ customer }) => setSelectedCustomer(customer))
+  }, [selectedCustomerId])
+
+  useEffect(() => {
+    if (!selectedCustomerId) return
+
+    api
+      .get<{ vehicles: VehicleItem[] }>(`/customers/${selectedCustomerId}/vehicles`)
       .then(({ vehicles }) => setVehicles(vehicles))
-  }, [selectedCustomer])
+  }, [selectedCustomerId])
 
   async function handleCreateCustomer(data: {
     customerId: string
@@ -57,9 +67,28 @@ export default function CustomersPage() {
   }) {
     const { customer } = await api.post<{ customer: CustomerSummary }>('/customers', data)
     setCustomers((prev) => [customer, ...prev])
-    setSelectedCustomer(customer)
+    setSelectedCustomerId(customer.id)
     setIsCreateModalOpen(false)
   }
+
+  function handleVehicleCreated(vehicle: VehicleItem) {
+    setVehicles((prev) => [vehicle, ...prev])
+  }
+
+  function handleVehicleUpdated(vehicle: VehicleItem) {
+    setVehicles((prev) => prev.map((v) => (v.id === vehicle.id ? vehicle : v)))
+    setVehicleToEdit(null)
+  }
+
+  function handleDeleteVehicle(vehicleId: string) {
+    setVehicles((prev) => prev.filter((v) => v.id !== vehicleId))
+    if (vehicleToEdit?.id === vehicleId) setVehicleToEdit(null)
+  }
+
+  const selectedCustomerSummary = selectedCustomerId
+    ? customers.find((customer) => customer.id === selectedCustomerId)
+    : null
+  const activeCustomer = selectedCustomer ?? selectedCustomerSummary
 
   return (
     <div className="flex flex-col gap-6">
@@ -73,7 +102,7 @@ export default function CustomersPage() {
         <div className="text-sm text-slate-500">
           <span className="text-indigo-600">Clientes</span>
           <span className="mx-2">›</span>
-          <span className="text-slate-600">{selectedCustomer?.name ?? '...'}</span>
+          <span className="text-slate-600">{activeCustomer?.name ?? '...'}</span>
           <span className="mx-2">›</span>
           <span className="text-slate-400">Gestão de Veículos</span>
         </div>
@@ -90,26 +119,37 @@ export default function CustomersPage() {
       <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
         <CustomersList
           customers={customers}
-          selectedId={selectedCustomer?.id}
-          onSelect={setSelectedCustomer}
+          selectedId={selectedCustomerId ?? undefined}
+          onSelect={(customer) => setSelectedCustomerId(customer.id)}
           onOpenCreate={() => setIsCreateModalOpen(true)}
         />
 
-        {selectedCustomer && (
+        {activeCustomer && (
           <div className="flex flex-col gap-6">
             <CustomerHeader
-              name={selectedCustomer.name}
-              createdAt={formatCreatedAt(selectedCustomer.createdAt)}
+              name={activeCustomer.name}
+              createdAt={formatCreatedAt(activeCustomer.createdAt)}
             />
             <CustomerInfoForm
-              name={selectedCustomer.name}
-              email={selectedCustomer.email}
-              phone={selectedCustomer.phone}
+              name={activeCustomer.name}
+              email={activeCustomer.email}
+              phone={activeCustomer.phone}
             />
 
             <div className="grid gap-6 xl:grid-cols-[1.05fr_1.4fr]">
-              <VehiclesForm vehicleTypes={vehicleTypes} />
-              <VehiclesTable vehicles={vehicles} />
+              <VehiclesForm
+                vehicleTypes={vehicleTypes}
+                customerId={activeCustomer.id}
+                onVehicleCreated={handleVehicleCreated}
+                vehicleToEdit={vehicleToEdit}
+                onVehicleUpdated={handleVehicleUpdated}
+                onCancelEdit={() => setVehicleToEdit(null)}
+              />
+              <VehiclesTable
+                vehicles={vehicles}
+                onDelete={handleDeleteVehicle}
+                onEdit={setVehicleToEdit}
+              />
             </div>
 
             <ProductivityTip />
