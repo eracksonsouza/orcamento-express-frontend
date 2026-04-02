@@ -15,6 +15,7 @@ export type VehiclesFormProps = {
 
 export type VehiclesTableProps = {
   vehicles: VehicleSummary[]
+  onDelete?: (vehicleId: string) => void
 }
 
 export type StatusToneClassMap = Record<StatusTone, string>
