@@ -1,13 +1,23 @@
 import { Pencil, SlidersHorizontal, Trash2 } from 'lucide-react'
-import type { StatusToneClassMap, VehiclesTableProps } from '../types'
+import { useState } from 'react'
+import { api } from '@/lib/api'
+import type { VehiclesTableProps } from '../types'
 
-const statusToneClassByType: StatusToneClassMap = {
-  success: 'bg-emerald-100 text-emerald-600',
-  warning: 'bg-amber-100 text-amber-600',
-  info: 'bg-indigo-100 text-indigo-600',
-}
+export default function VehiclesTable({ vehicles, onDelete }: VehiclesTableProps) {
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
-export default function VehiclesTable({ vehicles }: VehiclesTableProps) {
+  async function handleDelete(vehicleId: string) {
+    setDeletingId(vehicleId)
+    try {
+      await api.delete(`/vehicles/${vehicleId}`)
+      onDelete?.(vehicleId)
+    } catch {
+      // TODO: show error toast
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
   return (
     <section className="flex flex-col gap-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
       <header className="flex items-center justify-between">
@@ -25,7 +35,8 @@ export default function VehiclesTable({ vehicles }: VehiclesTableProps) {
             <tr>
               <th className="px-2 py-2">Veículo</th>
               <th className="px-2 py-2">Placa</th>
-              <th className="px-2 py-2">Status</th>
+              <th className="px-2 py-2">Tipo</th>
+              <th className="px-2 py-2">Proprietário</th>
               <th className="px-2 py-2 text-right">Ações</th>
             </tr>
           </thead>
@@ -33,25 +44,31 @@ export default function VehiclesTable({ vehicles }: VehiclesTableProps) {
             {vehicles.map((vehicle) => (
               <tr key={vehicle.id} className="border-t border-slate-100">
                 <td className="px-2 py-3">
-                  <div className="font-medium text-slate-800">{vehicle.model}</div>
+                  <div className="font-medium text-slate-800">
+                    {vehicle.brand} {vehicle.model}
+                  </div>
                   <div className="text-xs text-slate-400">{vehicle.year}</div>
                 </td>
-                <td className="px-2 py-3 text-slate-500">{vehicle.plate}</td>
-                <td className="px-2 py-3">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                      statusToneClassByType[vehicle.statusTone]
-                    }`}
-                  >
-                    {vehicle.status}
-                  </span>
+                <td className="px-2 py-3 text-slate-500">{vehicle.licensePlate}</td>
+                <td className="px-2 py-3 text-slate-500 capitalize">
+                  {vehicle.type.toLowerCase()}
+                </td>
+                <td className="px-2 py-3 text-slate-500">
+                  {vehicle.customerName ?? '—'}
                 </td>
                 <td className="px-2 py-3">
                   <div className="flex justify-end gap-3 text-slate-400">
-                    <button>
+                    <button
+                      className="hover:text-indigo-600 disabled:opacity-40"
+                      disabled={deletingId === vehicle.id}
+                    >
                       <Pencil className="h-4 w-4" />
                     </button>
-                    <button>
+                    <button
+                      onClick={() => handleDelete(vehicle.id)}
+                      className="hover:text-red-500 disabled:opacity-40"
+                      disabled={deletingId === vehicle.id}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>

@@ -15,6 +15,7 @@ export type VehicleRecord = {
   year: number
   licensePlate: string
   type: string
+  customerName?: string
   createdAt: string
   updatedAt: string
 }
