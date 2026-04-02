@@ -74,18 +74,18 @@ export const serviceDistribution: ServiceDistributionItem[] = [
     id: 'painting',
     label: 'Pintura',
     percentage: 65,
-    colorClass: 'bg-blue-500',
+    colorClass: '#3b82f6',
   },
   {
     id: 'body',
     label: 'Funilaria',
     percentage: 25,
-    colorClass: 'bg-amber-400',
+    colorClass: '#f59e0b',
   },
   {
     id: 'detailing',
     label: 'Polimento',
     percentage: 10,
-    colorClass: 'bg-slate-300',
+    colorClass: '#94a3b8',
   },
 ]
