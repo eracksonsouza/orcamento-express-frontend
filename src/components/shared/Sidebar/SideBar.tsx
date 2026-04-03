@@ -33,7 +33,7 @@ export default function Sidebar() {
       className={cn(
         'relative flex h-screen flex-col',
         'transition-[width] duration-300 ease-in-out',
-        collapsed ? 'w-[68px]' : 'w-[220px]',
+        collapsed ? 'w-17' : 'w-55',
       )}
       style={{ background: S.bg, borderRight: S.border }}
     >
@@ -48,14 +48,14 @@ export default function Sidebar() {
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
           style={{ background: S.ctaGradient, boxShadow: S.logoGlow }}
         >
-          <Zap className="h-[15px] w-[15px] text-white" strokeWidth={2.5} />
+          <Zap className="h-3.75 w-3.75 text-white" strokeWidth={2.5} />
         </span>
 
         <div
           className={cn(
             'flex flex-col overflow-hidden',
             'transition-[opacity,max-width] duration-200',
-            collapsed ? 'max-w-0 opacity-0' : 'max-w-[140px] opacity-100',
+            collapsed ? 'max-w-0 opacity-0' : 'max-w-35 opacity-100',
           )}
         >
           <span
@@ -85,7 +85,7 @@ export default function Sidebar() {
             title={collapsed ? label : undefined}
             className={({ isActive }) =>
               cn(
-                'group relative flex items-center gap-3 rounded-lg px-2.5 py-[9px] text-sm font-medium overflow-hidden',
+                'group relative flex items-center gap-3 rounded-lg px-2.5 py-2.25 text-sm font-medium overflow-hidden',
                 'transition-all duration-150',
                 !isActive && 'hover:bg-[rgba(255,255,255,0.05)]',
                 collapsed && 'justify-center px-0',
@@ -100,7 +100,7 @@ export default function Sidebar() {
                 {/* Active left-border indicator */}
                 {isActive && (
                   <span
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-full"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-0.75 rounded-full"
                     style={{
                       height: '55%',
                       background: S.indicatorGradient,
@@ -123,7 +123,7 @@ export default function Sidebar() {
                   className={cn(
                     'whitespace-nowrap overflow-hidden',
                     'transition-[opacity,max-width] duration-200',
-                    collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100',
+                    collapsed ? 'max-w-0 opacity-0' : 'max-w-40 opacity-100',
                   )}
                   style={{ color: isActive ? S.textActive : S.text }}
                 >
@@ -146,7 +146,7 @@ export default function Sidebar() {
           aria-label="Abrir painel de acessibilidade"
           aria-expanded={accessibilityOpen}
           className={cn(
-            'group relative flex items-center gap-3 rounded-lg px-2.5 py-[9px] text-sm font-medium w-full overflow-hidden',
+            'group relative flex items-center gap-3 rounded-lg px-2.5 py-2.25 text-sm font-medium w-full overflow-hidden',
             'transition-all duration-150',
             !accessibilityOpen && 'hover:bg-[rgba(255,255,255,0.05)]',
             collapsed && 'justify-center px-0',
@@ -178,7 +178,7 @@ export default function Sidebar() {
             className={cn(
               'whitespace-nowrap overflow-hidden',
               'transition-[opacity,max-width] duration-200',
-              collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100',
+              collapsed ? 'max-w-0 opacity-0' : 'max-w-40 opacity-100',
             )}
             style={{ color: accessibilityOpen ? S.textActive : S.text }}
           >
@@ -199,12 +199,12 @@ export default function Sidebar() {
           )}
           style={{ background: S.ctaGradient, boxShadow: S.ctaShadow }}
         >
-          <Plus className="h-[15px] w-[15px] shrink-0" strokeWidth={2.5} />
+          <Plus className="h-3.75 w-3.75 shrink-0" strokeWidth={2.5} />
           <span
             className={cn(
               'whitespace-nowrap overflow-hidden',
               'transition-[opacity,max-width] duration-200',
-              collapsed ? 'max-w-0 opacity-0' : 'max-w-[130px] opacity-100',
+              collapsed ? 'max-w-0 opacity-0' : 'max-w-32.5 opacity-100',
             )}
           >
             Novo Orçamento
@@ -217,7 +217,7 @@ export default function Sidebar() {
         onClick={toggleCollapsed}
         aria-label={collapsed ? 'Expandir menu' : 'Minimizar menu'}
         className={cn(
-          'absolute -right-3 top-[72px] z-10',
+          'absolute -right-3 top-18 z-10',
           'flex h-6 w-6 items-center justify-center rounded-full',
           'transition-all duration-150 hover:scale-110',
         )}
